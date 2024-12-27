@@ -9,21 +9,37 @@
 <p>Size: {{ size }}</p>
 
 <h3>Table:</h3>
+<style>
+    table {
+        border-collapse: collapse; /* Убирает двойные границы */
+        width: 50%; /* Устанавливает ширину таблицы */
+        margin: 20px auto; /* Центрирует таблицу */
+    }
+    th, td {
+        border: 1px solid #ddd; /* Граница ячеек */
+        padding: 8px; /* Отступы внутри ячеек */
+        text-align: center; /* Выравнивание текста по центру */
+    }
+    th {
+        background-color: #f2f2f2; /* Цвет фона заголовков */
+    }
+</style>
+
 <table>
     <thead>
         <tr>
-            <th>+</th>
-            {% for j in indices %}
-                <th>{{ j }}</th>
+            <th>&times;</th>
+            {% for j in table.0 %}
+                <th>{{ forloop.counter0 }}</th>
             {% endfor %}
         </tr>
     </thead>
     <tbody>
-        {% for i in indices %}
+        {% for i in table %}
             <tr>
-                <th>{{ i }}</th>
-                {% for j in table.i %}
-                    <td>{{ j }}</td>
+                <th>{{ forloop.counter0 }}</th>
+                {% for value in i %}
+                    <td>{{ value }}</td>
                 {% endfor %}
             </tr>
         {% endfor %}

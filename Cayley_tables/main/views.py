@@ -22,6 +22,6 @@ def result_view(request, base, size):
     table = [[0] * size for _ in range(size)]
     for i in range(size):
         for j in range(size):
-            table[i][j] = i + j
+            table[i][j] = i + j + 5
     indices = list(range(size))
     return render(request, 'table.html', {'base': base, 'size': size, 'table': table, 'indices': indices})
