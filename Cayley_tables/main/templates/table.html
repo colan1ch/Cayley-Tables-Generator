@@ -6,6 +6,29 @@
 {% block content %}
 <h2>Submitted Values</h2>
 <p>Base: {{ base }}</p>
-<p>Nums: {{ nums }}</p>
-<a href="{% url '' %}">Go back</a>
+<p>Size: {{ size }}</p>
+
+<h3>Table:</h3>
+<table>
+    <thead>
+        <tr>
+            <th>+</th>
+            {% for j in indices %}
+                <th>{{ j }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in indices %}
+            <tr>
+                <th>{{ i }}</th>
+                {% for j in table.i %}
+                    <td>{{ j }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'input_view' %}">Go back</a>
 {% endblock %}

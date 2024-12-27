@@ -20,6 +20,6 @@ from main.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', input_view),
-    path('result/<str:base>/<str:nums>', result_view)
+    path('', input_view, name='input_view'),
+    path('<int:base>/<int:size>', result_view, name='result_view')
 ]
