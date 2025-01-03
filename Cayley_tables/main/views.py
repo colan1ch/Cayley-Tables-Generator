@@ -109,29 +109,39 @@ def result_view(request, size, table_data):
         tables_list = generate_all_combinations(table_data)
         ass_count = 0
         have_neutral = 0
+        ass_neutral = 0
         for lst in tables_list:
             table = list_to_table(lst)
-            ass_count += associate_check(table)
-            have_neutral += (neutral_element_search(table) != -1)
+            is_ass = associate_check(table)
+            is_neutral = neutral_element_search(table) != -1
+            ass_count += is_ass
+            have_neutral += is_neutral
+            ass_neutral += (is_ass and is_neutral)
         context = {
             'size': size,
             'tables_count': tables_count,
             'ass_count': ass_count,
-            'have_neutral': have_neutral
+            'have_neutral': have_neutral,
+            'ass_neutral': ass_neutral
         }
         return render(request, 'medium_count.html', context)
     else:
         tables_list = generate_first_1000_combinations(table_data)
         ass_count = 0
         have_neutral = 0
+        ass_neutral = 0
         for lst in tables_list:
             table = list_to_table(lst)
-            ass_count += associate_check(table)
-            have_neutral += (neutral_element_search(table) != -1)
+            is_ass = associate_check(table)
+            is_neutral = neutral_element_search(table) != -1
+            ass_count += is_ass
+            have_neutral += is_neutral
+            ass_neutral += (is_ass and is_neutral)
         context = {
             'size': size,
             'tables_count': tables_count,
             'ass_count': ass_count,
-            'have_neutral': have_neutral
+            'have_neutral': have_neutral,
+            'ass_neutral': ass_neutral
         }
         return render(request, 'large_count.html', context)
