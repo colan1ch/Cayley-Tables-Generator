@@ -26,32 +26,6 @@ def generate_all_combinations(input_list):
     return result
 
 
-# def generate_first_1000_combinations(input_list):
-#     n = int(len(input_list) ** 0.5)
-#     result = []
-#
-#     def backtrack(current_list, index):
-#         if len(result) >= 1000:
-#             return
-#         if index == len(input_list):
-#             result.append(current_list[:])
-#             return
-#
-#         if input_list[index] == -1:
-#             for i in range(n):
-#                 current_list[index] = i
-#                 backtrack(current_list, index + 1)
-#         else:
-#             current_list[index] = input_list[index]
-#             backtrack(current_list, index + 1)
-#
-#     backtrack([-1] * len(input_list), 0)
-#     return result
-
-
-# def generate_first_1kk_combinations(input_list):
-#     return [[x if x != -1 else randint(0, int(len(input_list)**0.5) - 1) for x in input_list] for _ in range(10**6)]
-
 def generate_500k_random_combinations(input_list):
     n = int(len(input_list)**0.5)
     cnt_unknown = input_list.count(-1)
