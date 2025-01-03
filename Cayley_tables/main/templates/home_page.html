@@ -1,13 +1,109 @@
-<!-- input.html -->
 {% extends 'base.html' %}
 
 {% block title %}Cayley Tables Generation{% endblock %}
 
 {% block content %}
 <h2>Input values</h2>
-<form method="post">
+<form method="post" id="input-form">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Submit</button>
 </form>
+
+<style>
+    .table-cell {
+        width: 50px;
+        text-align: center;
+    }
+</style>
+
+<div id="table-container" style="margin-top: 20px;"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('input-form');
+        const sizeInput = document.getElementById('id_size');
+        const tableContainer = document.getElementById('table-container');
+        let size = 0;
+
+        sizeInput.addEventListener('input', function() {
+            size = this.value;
+            generateTable(size);
+        });
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const tableData = getTableData();
+            if (tableData === null) {
+                alert('Пожалуйста, введите только значения от 0 до ' + (size - 1) + ' или оставьте ячейки пустыми в таблице.');
+                return;
+            }
+            const tableInput = document.createElement('input');
+            tableInput.type = 'hidden';
+            tableInput.name = 'table_data';
+            tableInput.value = JSON.stringify(tableData);
+            form.appendChild(tableInput);
+            this.submit();
+        });
+
+        function generateTable(size) {
+            tableContainer.innerHTML = '';
+            const table = document.createElement('table');
+
+            for (let i = 0; i < size; i++) {
+                const row = document.createElement('tr');
+                for (let j = 0; j < size; j++) {
+                    const cell = document.createElement('td');
+                    cell.classList.add('table-cell');
+                    const input = document.createElement('input');
+                    input.type = 'number';
+                    input.min = '0';
+                    input.max = String(size - 1);
+                    input.value = '';
+                    input.addEventListener('input', function() {
+                        const value = this.value.trim();
+                        if (value !== '' && (isNaN(parseInt(value)) || parseInt(value) < 0 || parseInt(value) >= size)) {
+                            this.value = '';
+                        }
+                    });
+                    cell.appendChild(input);
+                    row.appendChild(cell);
+                }
+                table.appendChild(row);
+            }
+
+            tableContainer.appendChild(table);
+
+            const cells = tableContainer.querySelectorAll('td');
+            cells.forEach(function(cell) {
+                cell.addEventListener('click', function() {
+                    this.querySelector('input').focus();
+                });
+            });
+        }
+
+        function getTableData() {
+            const tableData = [];
+            const cells = tableContainer.querySelectorAll('input');
+            let isValid = true;
+            cells.forEach(function(cell) {
+                const value = cell.value.trim();
+                if (value === '') {
+                    tableData.push(-1);
+                } else {
+                    const numericValue = parseInt(value);
+                    if (isNaN(numericValue) || numericValue < 0 || numericValue >= size) {
+                        isValid = false;
+                        return;
+                    }
+                    tableData.push(numericValue);
+                }
+            });
+            if (!isValid) {
+                return null;
+            }
+            return tableData;
+        }
+    });
+</script>
 {% endblock %}
