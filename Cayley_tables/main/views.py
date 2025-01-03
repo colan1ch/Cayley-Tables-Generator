@@ -25,6 +25,29 @@ def generate_all_combinations(input_list):
     return result
 
 
+def generate_first_1000_combinations(input_list):
+    n = int(len(input_list) ** 0.5)
+    result = []
+
+    def backtrack(current_list, index):
+        if len(result) >= 1000:
+            return
+        if index == len(input_list):
+            result.append(current_list[:])
+            return
+
+        if input_list[index] == -1:
+            for i in range(n):
+                current_list[index] = i
+                backtrack(current_list, index + 1)
+        else:
+            current_list[index] = input_list[index]
+            backtrack(current_list, index + 1)
+
+    backtrack([-1] * len(input_list), 0)
+    return result
+
+
 def list_to_table(lst):
     size = int(len(lst)**0.5)
     table = [[0] * size for _ in range(size)]
@@ -71,15 +94,44 @@ def result_view(request, size, table_data):
     table_data = json.loads(table_data)
     unknown_nums_count = table_data.count(-1)
     tables_count = size ** unknown_nums_count
-    print(table_data)
-    if tables_count < 10:
+    if tables_count < 100:
         tables_list = generate_all_combinations(table_data)
         data = []
         for lst in tables_list:
             table = list_to_table(lst)
             data.append((table, {'associate': associate_check(table), 'neutral': neutral_element_search(table)}))
-    context = {
-        'size': size,
-        'data': data
-    }
-    return render(request, 'table.html', context)
+        context = {
+            'size': size,
+            'data': data
+        }
+        return render(request, 'table.html', context)
+    elif tables_count < 1000:
+        tables_list = generate_all_combinations(table_data)
+        ass_count = 0
+        have_neutral = 0
+        for lst in tables_list:
+            table = list_to_table(lst)
+            ass_count += associate_check(table)
+            have_neutral += (neutral_element_search(table) != -1)
+        context = {
+            'size': size,
+            'tables_count': tables_count,
+            'ass_count': ass_count,
+            'have_neutral': have_neutral
+        }
+        return render(request, 'medium_count.html', context)
+    else:
+        tables_list = generate_first_1000_combinations(table_data)
+        ass_count = 0
+        have_neutral = 0
+        for lst in tables_list:
+            table = list_to_table(lst)
+            ass_count += associate_check(table)
+            have_neutral += (neutral_element_search(table) != -1)
+        context = {
+            'size': size,
+            'tables_count': tables_count,
+            'ass_count': ass_count,
+            'have_neutral': have_neutral
+        }
+        return render(request, 'large_count.html', context)

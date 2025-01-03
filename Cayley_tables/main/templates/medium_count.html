@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Result{% endblock %}
+
+{% block content %}
+<h2>Submitted Values</h2>
+<p>Size: {{ size }}</p>
+<p>Tables count: {{ tables_count }}</p>
+<p>Associate: {{ ass_count }}</p>
+<p>Have neutral: {{ have_neutral }}</p>
+
+<a href="{% url 'input_view' %}">Go back</a>
+{% endblock %}
