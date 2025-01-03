@@ -2,6 +2,7 @@ from random import randint
 from django.shortcuts import render, redirect
 from .forms import InputForm
 import json
+from random import randint, choices
 
 
 def generate_all_combinations(input_list):
@@ -25,27 +26,48 @@ def generate_all_combinations(input_list):
     return result
 
 
-def generate_first_1000_combinations(input_list):
-    n = int(len(input_list) ** 0.5)
+# def generate_first_1000_combinations(input_list):
+#     n = int(len(input_list) ** 0.5)
+#     result = []
+#
+#     def backtrack(current_list, index):
+#         if len(result) >= 1000:
+#             return
+#         if index == len(input_list):
+#             result.append(current_list[:])
+#             return
+#
+#         if input_list[index] == -1:
+#             for i in range(n):
+#                 current_list[index] = i
+#                 backtrack(current_list, index + 1)
+#         else:
+#             current_list[index] = input_list[index]
+#             backtrack(current_list, index + 1)
+#
+#     backtrack([-1] * len(input_list), 0)
+#     return result
+
+
+# def generate_first_1kk_combinations(input_list):
+#     return [[x if x != -1 else randint(0, int(len(input_list)**0.5) - 1) for x in input_list] for _ in range(10**6)]
+
+def generate_500k_random_combinations(input_list):
+    n = int(len(input_list)**0.5)
+    cnt_unknown = input_list.count(-1)
     result = []
-
-    def backtrack(current_list, index):
-        if len(result) >= 1000:
-            return
-        if index == len(input_list):
-            result.append(current_list[:])
-            return
-
-        if input_list[index] == -1:
-            for i in range(n):
-                current_list[index] = i
-                backtrack(current_list, index + 1)
-        else:
-            current_list[index] = input_list[index]
-            backtrack(current_list, index + 1)
-
-    backtrack([-1] * len(input_list), 0)
-    return result
+    for _ in range(800_000):
+        r = choices(range(n), k=cnt_unknown)
+        r_ind = 0
+        cur_list = [x for x in input_list]
+        for i in range(len(cur_list)):
+            if cur_list[i] == -1:
+                cur_list[i] = r[r_ind]
+                r_ind += 1
+        result.append(cur_list)
+    res_str = list(set([' '.join([str(x) for x in lst]) for lst in result]))
+    res = [[int(x) for x in y.split()] for y in res_str]
+    return res[:500_000]
 
 
 def list_to_table(lst):
@@ -105,7 +127,7 @@ def result_view(request, size, table_data):
             'data': data
         }
         return render(request, 'table.html', context)
-    elif tables_count < 1000:
+    elif tables_count < 500_000:
         tables_list = generate_all_combinations(table_data)
         ass_count = 0
         have_neutral = 0
@@ -126,7 +148,7 @@ def result_view(request, size, table_data):
         }
         return render(request, 'medium_count.html', context)
     else:
-        tables_list = generate_first_1000_combinations(table_data)
+        tables_list = generate_500k_random_combinations(table_data)
         ass_count = 0
         have_neutral = 0
         ass_neutral = 0
