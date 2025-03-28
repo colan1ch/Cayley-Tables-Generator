@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-w+z7p08y1ov^6_1snf$ut6o_8i@!+p66s)y+9rs%lqrc5&(n1#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['cayleytablesgenerator.pythonanywhere.com']
 
 
 # Application definition
