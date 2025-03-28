@@ -3,10 +3,10 @@
 {% block title %}Result{% endblock %}
 
 {% block content %}
-<h2>Submitted Values</h2>
-<p>Size: {{ size }}</p>
+<h2>Полученные значения:</h2>
+<p>Порядок группоида: {{ size }}</p>
 
-<h3>Tables:</h3>
+<h3>Таблицы:</h3>
 <style>
     table {
         border-collapse: collapse; /* Убирает двойные границы */
@@ -46,10 +46,9 @@
 </table>
 
 <!-- Выводим отчет для текущей таблицы -->
-<h4>Report for Table {{ forloop.counter }}</h4>
-<p>Associate: {{ report.associate }}</p>
-<p>Neutral: {{ report.neutral }}</p>
+<p>Ассоциативность: {{ report.associate }}</p>
+<p>Нейтральный элемент: {{ report.neutral }}</p>
 
 {% endfor %}
-<a href="{% url 'input_view' %}">Go back</a>
+<a href="{% url 'input_view' %}">Назад</a>
 {% endblock %}

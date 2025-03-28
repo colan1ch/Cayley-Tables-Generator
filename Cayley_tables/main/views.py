@@ -2,7 +2,7 @@ from random import randint
 from django.shortcuts import render, redirect
 from .forms import InputForm
 import json
-from random import randint, choices
+from random import choices
 
 
 def generate_all_combinations(input_list):

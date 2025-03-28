@@ -3,12 +3,12 @@
 {% block title %}Result{% endblock %}
 
 {% block content %}
-<h2>Submitted Values</h2>
-<p>Size: {{ size }}</p>
-<p>Tables count: {{ tables_count }}</p>
-<p>Associate: {{ ass_count }}</p>
-<p>Have neutral: {{ have_neutral }}</p>
-<p>Associate and have neutral: {{ ass_neutral }}</p>
+<h2>Полученные значения</h2>
+<p>Порядок группоида: {{ size }}</p>
+<p>Общее количество таблиц: {{ tables_count }}</p>
+<p>Ассоциативных: {{ ass_count }}</p>
+<p>Имеющих нейтральный элемент: {{ have_neutral }}</p>
+<p>Ассоциативных и имеющих нейтральный элемент: {{ ass_neutral }}</p>
 
 <a href="{% url 'input_view' %}">Go back</a>
 {% endblock %}

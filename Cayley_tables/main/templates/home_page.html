@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %}Cayley Tables Generation{% endblock %}
+{% block title %}Cayley Tables Generator{% endblock %}
 
 {% block content %}
-<h2>Input values</h2>
 <form method="post" id="input-form">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Submit</button>
+    <button type="submit">Подтвердить</button>
 </form>
 
 <style>
